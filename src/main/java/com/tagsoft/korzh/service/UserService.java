@@ -1,10 +1,11 @@
 package com.tagsoft.korzh.service;
 
-import com.tagsoft.korzh.model.UserModel;
+import com.tagsoft.korzh.model.UserEntity;
 
 public interface UserService {
 
-    void createUser(UserModel userModel);
+    UserEntity findByUsername(String username);
 
-    UserModel findUserByMail(String mail);
+    boolean createUser(UserEntity userEntity);
+
 }

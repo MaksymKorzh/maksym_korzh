@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.2.4.js" type="text/javascript"></script>
+    <script src="js/app-ajax.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <br/><br/>
+    <form th:action="@{/users}" id="form" method="POST" class="form-register" style="width:30%;margin:auto">
+        <h3 class="form-signin-heading">REGISTRATION PAGE</h3>
+        <br/>
+        <div align="center" th:if="${param.error}">
+            <p style="font-size: 20; color: #FF1C19;">Oops</p>
+        </div>
+        <label for="mail">Enter your mail</label>
+        <input type="text" id="mail" name="mail" class="form-control" required=""/> <br/>
+        <label for="username">Enter your username</label>
+        <input type="text" id="username" name="username" class="form-control" required=""/> <br/>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" class="form-control" required=""/> <br/>
+        <label for="countrySelect">Select your country</label>
+        <select name="country" id="countrySelect" class="form-control" required="">
+            <option value="USA" id="USA" class="form-control">USA</option>
+            <option value="Canada" id="Canada" class="form-control">Canada</option>
+        </select> <br id="kostyl"/> <br/>
+        <button class="btn btn-lg btn-primary btn-block" name="Submit" value="Register" type="Submit"
+                th:text="Register">
+        </button>
+    </form>
+</div>
+</body>
+
+</html>
+
+<script>
+    document.getElementById("countrySelect").selectedIndex = -1;
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#countrySelect').on('change', function(ev){
+            var name = $(this).children("option:selected").val();
+            $.get("/country", {'name' : name}, function( data ) {
+                var select = document.getElementById('state');
+                if (select) {
+                    select.parentNode.removeChild(select);
+                }
+                var select = document.createElement("select");
+                select.setAttribute("id", "state");
+                select.setAttribute("name", "state");
+                select.setAttribute("class", "form-control");
+                select.setAttribute("required", "");
+                data.forEach(t => {
+                    var option = document.createElement("option");
+                    option.setAttribute("value", t.name);
+                    option.setAttribute("class", "form-control");
+                    option.appendChild(document.createTextNode(t.name));
+                    select.appendChild(option);
+                })
+                $('#kostyl').after(select);
+            });
+        });
+    });
+</script>

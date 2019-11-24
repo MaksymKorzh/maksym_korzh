@@ -1,6 +1,6 @@
 package com.tagsoft.korzh.service.Impl;
 
-import com.tagsoft.korzh.model.UserModel;
+import com.tagsoft.korzh.model.UserEntity;
 import com.tagsoft.korzh.repository.UserRepository;
 import com.tagsoft.korzh.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +13,18 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public void createUser(UserModel userModel) {
-        userRepository.save(userModel);
+    public UserEntity findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     @Override
-    public UserModel findUserByMail(String mail) {
-        return userRepository.findByMail(mail);
+    public boolean createUser(UserEntity userEntity) {
+        try {
+            userRepository.save(userEntity);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
 }

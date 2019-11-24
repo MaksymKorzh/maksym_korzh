@@ -1,0 +1,1 @@
+document.getElementById("countrySelect").selectedIndex = -1;
